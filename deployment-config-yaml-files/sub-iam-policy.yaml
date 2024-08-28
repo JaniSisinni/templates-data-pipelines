@@ -1,0 +1,31 @@
+# Define the Pub/Sub Subscription
+resources:
+  - name: my-subscription
+    type: gcp-types/pubsub-v1:projects.subscriptions
+    properties:
+      # Fully qualified name for the Pub/Sub subscription
+      # Replace YOUR_PROJECT_ID with your actual Google Cloud project ID
+      subscription: projects/YOUR_PROJECT_ID/subscriptions/my-subscription
+      # Associate the subscription with the specified topic
+      topic: projects/YOUR_PROJECT_ID/topics/my-topic
+
+# IAM Policy Binding for the Service Account
+resources:
+  - name: my-service-account-binding
+    type: gcp-types/iam-v1:projects.serviceAccounts.iamPolicies
+    properties:
+      policy:
+        # Define the IAM policy bindings
+        bindings:
+          # Grant the Pub/Sub Subscriber role to the service account
+          - role: roles/pubsub.subscriber
+            members:
+              # Fully qualified service account email address
+              # Replace YOUR_PROJECT_ID with your actual project ID
+              - serviceAccount:my-service-account@YOUR_PROJECT_ID.iam.gserviceaccount.com
+          # Grant the Pub/Sub Publisher role to the service account
+          - role: roles/pubsub.publisher
+            members:
+              # Fully qualified service account email address
+              # Replace YOUR_PROJECT_ID with your actual project ID
+              - serviceAccount:my-service-account@YOUR_PROJECT_ID.iam.gserviceaccount.com

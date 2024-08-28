@@ -1,0 +1,51 @@
+Prerequisites:
+- GCP Project
+- Pub/Sub Topic
+- Service Account
+
+Steps (GCP Console):
+- Navigate to Pub/Sub
+- Create a Topic
+- Configure Subscription (ID, Pull/Push, Acknowledgment deadline)
+- Create Subscription
+
+Using gcloud (Command line):
+- Set up GCP project
+gcloud config set project <your-project-id>
+- Create Topic
+gcloud pubsub topics create your-topic-name
+- Create Subscription 
+(PULL)
+gcloud pubsub subscriptions create your-subscription-name --topic=your-topic-name
+(PUSH)
+gcloud pubsub subscriptions create your-subscription-name --topic=your-topic-name --push-endpoint=<push-endpoint-URL>
+- Verify Subscription
+gcloud pubsub subscriptions list
+
+Using Google Cloud Client Libraries:
+
+- Install the Google Cloud Pub/Sub Client Library
+pip install google-cloud-pubsub
+
+- Python Script to Create the Subscription
+from google.cloud import pubsub_v1
+
+# Set up your GCP project ID and topic ID
+project_id = "your-project-id"
+topic_id = "your-topic-name"
+subscription_id = "your-subscription-name"
+
+# Initialize the Publisher client
+subscriber = pubsub_v1.SubscriberClient()
+topic_path = subscriber.topic_path(project_id, topic_id)
+subscription_path = subscriber.subscription_path(project_id, subscription_id)
+
+# Create a pull subscription
+with subscriber:
+    subscription = subscriber.create_subscription(
+        request={"name": subscription_path, "topic": topic_path}
+    )
+    print(f"Subscription created: {subscription.name}")
+
+- Run the Script
+python create_subscription.py

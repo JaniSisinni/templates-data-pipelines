@@ -1,0 +1,8 @@
+# Define the Pub/Sub Topic
+resources:
+  - name: my-topic
+    type: gcp-types/pubsub-v1:projects.topics
+    properties:
+      # Fully qualified name for the Pub/Sub topic
+      # Replace YOUR_PROJECT_ID with your actual Google Cloud project ID
+      topic: projects/YOUR_PROJECT_ID/topics/my-topic
